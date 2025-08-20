@@ -4,9 +4,6 @@ from django.contrib.auth.models import User
 
 
 class Category(models.Model):
-    """
-    Model minh họa các loại field cơ bản và Meta options
-    """
     name = models.CharField(
         max_length=100,
         unique=True,
@@ -138,29 +135,22 @@ class Product(models.Model):
         return self.name
     
     def get_final_price(self):
-        """Instance method để tính giá cuối cùng sau khuyến mãi"""
         return self.discount_price if self.discount_price else self.price
     
     def is_in_stock(self):
-        """Instance method để kiểm tra còn hàng không"""
         return self.stock_quantity > 0
     
     def get_discount_percentage(self):
-        """Instance method để tính phần trăm giảm giá"""
         if self.discount_price and self.price > 0:
             return round(((self.price - self.discount_price) / self.price) * 100, 2)
         return 0
     
     @property
     def is_on_sale(self):
-        """Property để kiểm tra sản phẩm có đang khuyến mãi không"""
         return bool(self.discount_price and self.discount_price < self.price)
 
 
 class ProductImage(models.Model):
-    """
-    Model minh họa One-to-Many relationship và file handling
-    """
     product = models.ForeignKey(
         Product,
         on_delete=models.CASCADE,
@@ -206,7 +196,6 @@ class ProductImage(models.Model):
         return f"Hình ảnh của {self.product.name}"
     
     def save(self, *args, **kwargs):
-        """Override save method để đảm bảo chỉ có một hình ảnh chính"""
         if self.is_primary:
             # Đặt tất cả hình ảnh khác của sản phẩm này thành không phải chính
             ProductImage.objects.filter(
@@ -217,9 +206,6 @@ class ProductImage(models.Model):
 
 
 class Review(models.Model):
-    """
-    Model minh họa Many-to-Many relationship và custom validation
-    """
     product = models.ForeignKey(
         Product,
         on_delete=models.CASCADE,
@@ -283,9 +269,7 @@ class Review(models.Model):
 
 
 class Tag(models.Model):
-    """
-    Model minh họa Many-to-Many relationship
-    """
+
     name = models.CharField(
         max_length=50,
         unique=True,
@@ -327,9 +311,7 @@ class Tag(models.Model):
 
 
 class Order(models.Model):
-    """
-    Model minh họa complex relationships và business logic
-    """
+
     ORDER_STATUS_CHOICES = [
         ('pending', 'Chờ xử lý'),
         ('processing', 'Đang xử lý'),
@@ -396,9 +378,6 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-    """
-    Model minh họa intermediate model cho Many-to-Many với extra fields
-    """
     order = models.ForeignKey(
         Order,
         on_delete=models.CASCADE,

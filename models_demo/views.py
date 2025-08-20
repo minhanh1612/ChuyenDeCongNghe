@@ -4,7 +4,6 @@ from .models import Category, Product, Review, Tag, Order
 
 
 def index(request):
-    """Trang chủ hiển thị tổng quan về các model"""
     context = {
         'total_categories': Category.objects.count(),
         'total_products': Product.objects.count(),
@@ -18,7 +17,6 @@ def index(request):
 
 
 def category_list(request):
-    """Danh sách danh mục với số lượng sản phẩm"""
     categories = Category.objects.annotate(
         product_count=Count('products')
     ).filter(is_active=True)
@@ -30,7 +28,6 @@ def category_list(request):
 
 
 def product_list(request):
-    """Danh sách sản phẩm với filter và search"""
     products = Product.objects.select_related('category').filter(status='published')
     
     # Filter theo danh mục
@@ -78,7 +75,6 @@ def product_list(request):
 
 
 def product_detail(request, pk):
-    """Chi tiết sản phẩm với reviews và related products"""
     product = get_object_or_404(Product, pk=pk, status='published')
     reviews = product.reviews.select_related('user').order_by('-created_at')
     related_products = Product.objects.filter(
@@ -95,7 +91,6 @@ def product_detail(request, pk):
 
 
 def review_list(request):
-    """Danh sách reviews với filter"""
     reviews = Review.objects.select_related('product', 'user').order_by('-created_at')
     
     # Filter theo rating
@@ -117,7 +112,6 @@ def review_list(request):
 
 
 def tag_list(request):
-    """Danh sách tags với số lượng sản phẩm"""
     tags = Tag.objects.annotate(
         product_count=Count('products')
     ).order_by('name')
