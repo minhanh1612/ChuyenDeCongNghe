@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Demo Models - Django Model Layer{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .navbar-brand {
+            font-weight: bold;
+        }
+        .card {
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .rating {
+            color: #ffc107;
+        }
+        .price {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #28a745;
+        }
+        .discount-price {
+            text-decoration: line-through;
+            color: #6c757d;
+        }
+        .tag {
+            display: inline-block;
+            padding: 0.25em 0.6em;
+            margin: 0.2em;
+            border-radius: 15px;
+            font-size: 0.8em;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'models_demo:index' %}">
+                <i class="fas fa-database me-2"></i>Demo Models
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'models_demo:index' %}">
+                            <i class="fas fa-home me-1"></i>Trang chủ
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'models_demo:category_list' %}">
+                            <i class="fas fa-tags me-1"></i>Danh mục
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'models_demo:product_list' %}">
+                            <i class="fas fa-box me-1"></i>Sản phẩm
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'models_demo:review_list' %}">
+                            <i class="fas fa-star me-1"></i>Đánh giá
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'models_demo:tag_list' %}">
+                            <i class="fas fa-tag me-1"></i>Tags
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'models_demo:order_list' %}">
+                            <i class="fas fa-shopping-cart me-1"></i>Đơn hàng
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/">
+                            <i class="fas fa-cog me-1"></i>Admin
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container my-4">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="bg-light py-4 mt-5">
+        <div class="container text-center">
+            <p class="text-muted mb-0">
+                <i class="fas fa-code me-1"></i>
+                Demo Django Model Layer - Minh họa các khái niệm về Models, QuerySets, và Relationships
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

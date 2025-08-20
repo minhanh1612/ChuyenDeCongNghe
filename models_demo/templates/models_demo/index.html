@@ -1,0 +1,198 @@
+{% extends 'models_demo/base.html' %}
+
+{% block title %}Trang chủ - Demo Models{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="jumbotron bg-primary text-white p-5 rounded">
+            <h1 class="display-4">
+                <i class="fas fa-database me-3"></i>
+                Django Model Layer Demo
+            </h1>
+            <p class="lead">
+                Minh họa các khái niệm về Models, QuerySets, Relationships, và Model Instances trong Django
+            </p>
+            <hr class="my-4">
+            <p>
+                Dự án này minh họa đầy đủ các tính năng của Django Model Layer như được mô tả trong tài liệu chính thức.
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-center border-primary">
+            <div class="card-body">
+                <i class="fas fa-tags fa-3x text-primary mb-3"></i>
+                <h5 class="card-title">Danh mục</h5>
+                <h2 class="text-primary">{{ total_categories }}</h2>
+                <a href="{% url 'models_demo:category_list' %}" class="btn btn-outline-primary">
+                    Xem danh mục
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center border-success">
+            <div class="card-body">
+                <i class="fas fa-box fa-3x text-success mb-3"></i>
+                <h5 class="card-title">Sản phẩm</h5>
+                <h2 class="text-success">{{ total_products }}</h2>
+                <a href="{% url 'models_demo:product_list' %}" class="btn btn-outline-success">
+                    Xem sản phẩm
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center border-warning">
+            <div class="card-body">
+                <i class="fas fa-star fa-3x text-warning mb-3"></i>
+                <h5 class="card-title">Đánh giá</h5>
+                <h2 class="text-warning">{{ total_reviews }}</h2>
+                <a href="{% url 'models_demo:review_list' %}" class="btn btn-outline-warning">
+                    Xem đánh giá
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center border-info">
+            <div class="card-body">
+                <i class="fas fa-shopping-cart fa-3x text-info mb-3"></i>
+                <h5 class="card-title">Đơn hàng</h5>
+                <h2 class="text-info">{{ total_orders }}</h2>
+                <a href="{% url 'models_demo:order_list' %}" class="btn btn-outline-info">
+                    Xem đơn hàng
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0">
+                    <i class="fas fa-star me-2"></i>
+                    Sản phẩm nổi bật
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if featured_products %}
+                    <div class="list-group list-group-flush">
+                        {% for product in featured_products %}
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">{{ product.name }}</h6>
+                                <small class="text-muted">{{ product.category.name }}</small>
+                            </div>
+                            <div class="text-end">
+                                <div class="rating">
+                                    {% for i in "12345" %}
+                                        {% if forloop.counter <= product.rating %}
+                                            <i class="fas fa-star"></i>
+                                        {% else %}
+                                            <i class="far fa-star"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <div class="price">{{ product.get_final_price }} VNĐ</div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-muted text-center">Chưa có sản phẩm nổi bật</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-chart-line me-2"></i>
+                    Sản phẩm đánh giá cao
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if top_rated_products %}
+                    <div class="list-group list-group-flush">
+                        {% for product in top_rated_products %}
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">{{ product.name }}</h6>
+                                <small class="text-muted">{{ product.category.name }}</small>
+                            </div>
+                            <div class="text-end">
+                                <div class="rating">
+                                    {% for i in "12345" %}
+                                        {% if forloop.counter <= product.rating %}
+                                            <i class="fas fa-star"></i>
+                                        {% else %}
+                                            <i class="far fa-star"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <span class="badge bg-success">{{ product.rating }}/5</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-muted text-center">Chưa có đánh giá</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Tính năng được minh họa
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h6><i class="fas fa-cube me-2"></i>Models</h6>
+                        <ul class="list-unstyled">
+                            <li>✓ Field types (CharField, TextField, DecimalField, etc.)</li>
+                            <li>✓ Indexes và Meta options</li>
+                            <li>✓ Model class với custom methods</li>
+                            <li>✓ Constraints và validators</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <h6><i class="fas fa-search me-2"></i>QuerySets</h6>
+                        <ul class="list-unstyled">
+                            <li>✓ Making queries với filter, exclude</li>
+                            <li>✓ Annotations và aggregations</li>
+                            <li>✓ Select_related và prefetch_related</li>
+                            <li>✓ Complex lookups với Q objects</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <h6><i class="fas fa-link me-2"></i>Relationships</h6>
+                        <ul class="list-unstyled">
+                            <li>✓ ForeignKey (One-to-Many)</li>
+                            <li>✓ ManyToManyField</li>
+                            <li>✓ Related names và reverse access</li>
+                            <li>✓ Intermediate models</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
