@@ -2,3 +2,5 @@ run py manage.py runserver.
 Access :8000/admin.
 Account :admin
 Password :minhanh1612
+
+<img width="1862" height="836" alt="image" src="https://github.com/user-attachments/assets/737cd34c-1159-44bb-9551-2c3d0e0a3da6" />
